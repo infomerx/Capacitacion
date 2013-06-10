@@ -1,0 +1,37 @@
+Html
+  head
+    meta(charset = 'utf-8')
+
+    :stylus
+
+      body.clase1
+        background red
+        label 
+          background silver
+        input
+          background silver
+      body.clase2        
+        background blue
+
+      label 
+        background red
+
+  body.clase1
+    form(action='/ejercicio1', method='post')
+        
+      label(for='nombre') Nombre Apellido
+      input(type='text', name='nombre', value='Erika Leguizamón', style='margin-left:20px')
+      br
+
+      label(for='edad') Edad
+      input(type='text', name='edad', value='27', style='margin-left:94px')
+      br
+
+      label(for='domicilio') Domicilio
+      input(type='text', name='domicilio', value='B° 1° de Mayo', style='margin-left:69px')
+      br
+
+      input(type='submit', value='Enviar Datos')
+    
+    :coffeescript
+      setTimeout (-> document.body.className= 'clase2') , 5000
