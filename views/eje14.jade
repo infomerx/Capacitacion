@@ -1,0 +1,44 @@
+html
+  head
+    meta(charset = 'utf-8')
+  body
+      time(for='Hora', id='hora') Ingrese una URL:
+      br
+
+      label(for='dir', id='dir');
+      br
+
+      input(type='text', id='dir_url', value='')
+      br
+
+      button(onclick= 'enviar()') Enviar
+
+      script
+        function getAjax(url, actualizar){
+
+          var http_request = new XMLHttpRequest();
+
+          http_request.onreadystatechange = handle_response;
+          http_request.open('GET', url, true);
+          http_request.send(null);
+
+          function handle_response() {
+            if(http_request.readyState == 4) {
+              if(http_request.status == 200) {
+                var json_data = http_request.responseText;
+                //var the_object = JSON.parse(json_data);
+                actualizar(json_data);
+              }
+              else {
+                console.log('Ocurrio un problema con la URL');
+              }
+              http_request = null;
+            }
+          }
+        }
+
+    :coffeescript
+      window.enviar = ->
+        dir_url = (document.getElementById 'dir_url').value
+        getAjax "http://localhost:8000/ejercicio14json?url=#{dir_url}", (resp) ->
+          document.getElementById('dir').innerHTML = resp
