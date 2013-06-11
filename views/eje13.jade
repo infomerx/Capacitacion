@@ -1,0 +1,48 @@
+html
+  head
+    meta(charset = 'utf-8')
+  body
+
+      time(for='Hora', id='hora')
+      br
+
+      label(for='nro') Ingrese 2 Numeros:
+      br
+
+      input(type='text', id='a', value='0')
+      br
+
+      input(type='text', id='b', value='0')
+      br
+
+      button(onclick= 'enviar()') Enviar
+
+      script
+        function getAjax(url, actualizar){
+
+          var http_request = new XMLHttpRequest();
+
+          http_request.onreadystatechange = handle_json;
+          http_request.open('GET', url, true);
+          http_request.send(null);
+
+          function handle_json() {
+            if(http_request.readyState == 4) {
+              if(http_request.status == 200) {
+                var json_data = http_request.responseText;
+                var the_object = JSON.parse(json_data);
+                actualizar(the_object);
+              }
+              else {
+                alert('Ocurrio un problema con la URL');
+              }
+            }
+          }
+        }
+
+    :coffeescript
+      window.enviar = ->
+        a = (document.getElementById 'a').value
+        b = (document.getElementById 'b').value
+        getAjax "/ejercicio13json?a=#{a}&b=#{b}", (resp) ->
+          document.getElementById('hora').innerHTML = resp.resultado
