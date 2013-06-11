@@ -27,6 +27,8 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+app.get('/ejercicio2', routes.ejercicio2);
+app.post('/ejercicio2', routes.eje2parte2);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
