@@ -1,0 +1,38 @@
+html
+  head
+    meta(charset = 'utf-8')
+  body
+    form
+
+      time(for='Hora', id='hora')
+      br
+
+      script
+        function getAjax(url, actualizar){
+
+          var http_request = new XMLHttpRequest();
+
+          http_request.onreadystatechange = handle_json;
+          http_request.open('GET', url, true);
+          http_request.send(null);
+
+          function handle_json() {
+            if(http_request.readyState == 4) {
+              if(http_request.status == 200) {
+                var json_data = http_request.responseText;
+                var the_object = JSON.parse(json_data);
+                actualizar(the_object);
+              }
+              else {
+                alert('Ocurrio un problema con la URL');
+              }
+              http_request = null;
+            }
+          }
+        }
+
+    :coffeescript
+      setInterval (->
+        getAjax 'http://localhost:8000/ejercicio12json',(t)->
+          document.getElementById('hora').innerHTML = t)
+        , 1000
